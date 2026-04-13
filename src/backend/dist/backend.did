@@ -1,0 +1,97 @@
+type Timestamp = int;
+type ProductMetadata = 
+ record {
+   description: text;
+   detectedPlatform: text;
+   discountPercent: float64;
+   imageUrl: text;
+   originalPrice: float64;
+   price: float64;
+   title: text;
+ };
+type ProductInput = 
+ record {
+   affiliateLink: text;
+   affiliateSource: text;
+   categoryId: CategoryId;
+   description: text;
+   discountPercent: nat;
+   imageUrl: text;
+   isTrending: bool;
+   originalPrice: float64;
+   platformLinks: vec PlatformLink;
+   price: float64;
+   tags: vec text;
+   title: text;
+ };
+type ProductId = nat;
+type ProductFilter = 
+ record {
+   categoryId: opt CategoryId;
+   maxPrice: opt float64;
+   minPrice: opt float64;
+   searchQuery: opt text;
+   sortBy: text;
+ };
+type Product = 
+ record {
+   affiliateLink: text;
+   affiliateSource: text;
+   categoryId: CategoryId;
+   clickCount: nat;
+   createdAt: Timestamp;
+   description: text;
+   discountPercent: nat;
+   id: ProductId;
+   imageUrl: text;
+   isTrending: bool;
+   originalPrice: float64;
+   platformLinks: vec PlatformLink;
+   price: float64;
+   tags: vec text;
+   title: text;
+   updatedAt: Timestamp;
+ };
+type PlatformLink = 
+ record {
+   affiliateLink: text;
+   clickCount: nat;
+   discountPercent: nat;
+   originalPrice: float64;
+   platform: text;
+   price: float64;
+ };
+type CategoryId = nat;
+type Category = 
+ record {
+   iconName: text;
+   id: CategoryId;
+   name: text;
+   slug: text;
+ };
+service : {
+  addCategory: (name: text, slug: text, iconName: text) -> (Category);
+  addProduct: (input: ProductInput) -> (Product);
+  adminLogin: (email: text, password: text) -> (bool);
+  claimAdmin: () -> (bool);
+  deleteProduct: (id: ProductId) -> (bool);
+  fetchProductMetadata: (url: text) ->
+   (variant {
+      Err: text;
+      Ok: ProductMetadata;
+    });
+  getCategories: () -> (vec Category) query;
+  getHotDeals: (limit: nat) -> (vec Product) query;
+  getPlatformLinks: (productId: ProductId) -> (vec PlatformLink) query;
+  getProduct: (id: ProductId) -> (opt Product) query;
+  getProductCountByCategory: (categoryId: CategoryId) -> (nat) query;
+  getProducts: (filter: ProductFilter) -> (vec Product) query;
+  getRelatedProducts: (productId: ProductId, limit: nat) ->
+   (vec Product) query;
+  isAdmin: () -> (bool);
+  recordClick: (productId: ProductId) -> ();
+  recordPlatformClick: (productId: ProductId, platform: text) -> ();
+  updateCategory: (id: CategoryId, name: text, slug: text, iconName: 
+   text) -> (opt Category);
+  updateProduct: (id: ProductId, input: ProductInput) -> (opt Product);
+}

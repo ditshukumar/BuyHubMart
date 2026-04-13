@@ -1,0 +1,28 @@
+{
+  "overview": "BuyHub Mart is a sleek, AI-powered price comparison website for Indian shoppers. Users search for products and instantly see side-by-side prices from top platforms like Amazon, Flipkart, Myntra, and Meesho. Only the admin controls affiliate links and product listings, ensuring full revenue control. The site features personalized recommendations, hot deal highlights, and a dedicated Compare page for premium deal discovery.",
+  "features": [
+    "AI-smart product search with relevance ranking",
+    "Side-by-side price comparison table across Amazon, Flipkart, Myntra, Meesho, and more",
+    "Dedicated /compare page for premium deal discovery",
+    "Hot Deals carousel with animated deal badges",
+    "Best Deal badge on product cards showing lowest price and platform",
+    "Personalized recommendations based on browsing history",
+    "Category navigation with product counts",
+    "Compare Prices CTA on every product card",
+    "Admin-only affiliate link management",
+    "Admin click analytics per platform per product"
+  ],
+  "category": "shopping-e-commerce",
+  "tags": [
+    "price-comparison",
+    "affiliate-marketing",
+    "india",
+    "ecommerce",
+    "deals",
+    "shopping",
+    "amazon",
+    "flipkart",
+    "recommendations"
+  ],
+  "last_updated": "2026-04-12T05:36:56.029Z"
+}

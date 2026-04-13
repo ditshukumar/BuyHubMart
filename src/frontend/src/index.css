@@ -1,0 +1,354 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "Space Grotesk";
+    --font-body: "Plus Jakarta Sans";
+    --font-mono: "JetBrains Mono";
+    --radius: 0.75rem;
+
+    --background: 0.97 0.01 280;
+    --foreground: 0.18 0.02 270;
+    --card: 0.99 0 0;
+    --card-foreground: 0.15 0.02 265;
+    --popover: 0.99 0 0;
+    --popover-foreground: 0.15 0.02 265;
+
+    --primary: 0.55 0.18 42;
+    --primary-foreground: 0.98 0 0;
+
+    --secondary: 0.28 0.08 260;
+    --secondary-foreground: 0.95 0 0;
+    --muted: 0.93 0.01 280;
+    --muted-foreground: 0.45 0.02 265;
+
+    --accent: 0.6 0.19 38;
+    --accent-foreground: 0.98 0 0;
+
+    --destructive: 0.58 0.24 25;
+    --destructive-foreground: 0.98 0 0;
+
+    --border: 0.92 0.01 280;
+    --input: 0.94 0.01 280;
+    --ring: 0.55 0.18 42;
+
+    --chart-1: 0.65 0.19 38;
+    --chart-2: 0.52 0.14 260;
+    --chart-3: 0.75 0.18 140;
+    --chart-4: 0.68 0.16 85;
+    --chart-5: 0.58 0.2 25;
+
+    --sidebar: 0.28 0.08 260;
+    --sidebar-foreground: 0.95 0 0;
+    --sidebar-primary: 0.6 0.19 38;
+    --sidebar-primary-foreground: 0.98 0 0;
+    --sidebar-accent: 0.93 0.01 280;
+    --sidebar-accent-foreground: 0.28 0.08 260;
+    --sidebar-border: 0.35 0.05 265;
+    --sidebar-ring: 0.55 0.18 42;
+  }
+
+  .dark {
+    --background: 0.12 0.01 265;
+    --foreground: 0.94 0.01 280;
+    --card: 0.16 0.01 265;
+    --card-foreground: 0.93 0.01 280;
+    --popover: 0.2 0.02 265;
+    --popover-foreground: 0.94 0.01 280;
+
+    --primary: 0.72 0.16 38;
+    --primary-foreground: 0.12 0.01 265;
+
+    --secondary: 0.22 0.08 260;
+    --secondary-foreground: 0.88 0 0;
+    --muted: 0.2 0.02 265;
+    --muted-foreground: 0.55 0.02 270;
+
+    --accent: 0.72 0.16 38;
+    --accent-foreground: 0.12 0.01 265;
+
+    --destructive: 0.68 0.22 25;
+    --destructive-foreground: 0.98 0 0;
+
+    --border: 0.25 0.02 265;
+    --input: 0.25 0.02 265;
+    --ring: 0.72 0.16 38;
+
+    --chart-1: 0.72 0.18 38;
+    --chart-2: 0.65 0.16 260;
+    --chart-3: 0.85 0.16 140;
+    --chart-4: 0.75 0.16 85;
+    --chart-5: 0.68 0.22 25;
+
+    --sidebar: 0.16 0.01 265;
+    --sidebar-foreground: 0.94 0.01 280;
+    --sidebar-primary: 0.72 0.16 38;
+    --sidebar-primary-foreground: 0.98 0 0;
+    --sidebar-accent: 0.22 0.08 260;
+    --sidebar-accent-foreground: 0.88 0 0;
+    --sidebar-border: 0.25 0.02 265;
+    --sidebar-ring: 0.72 0.16 38;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/assets/fonts/SpaceGrotesk.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/assets/fonts/PlusJakartaSans.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .btn-primary {
+    @apply bg-accent text-accent-foreground font-display font-bold px-6 py-3 rounded-full transition-smooth hover:brightness-110 active:scale-95;
+  }
+
+  .card-hover {
+    @apply transition-smooth hover:shadow-lg hover:scale-105;
+  }
+
+  .badge-success {
+    background-color: oklch(0.88 0.1 150);
+    color: oklch(0.32 0.12 150);
+    @apply px-2 py-1 rounded-full text-xs font-medium;
+  }
+
+  .source-badge-amazon {
+    background-color: oklch(0.92 0.08 65 / 0.15);
+    color: oklch(0.62 0.14 65);
+  }
+
+  .source-badge-flipkart {
+    background-color: oklch(0.62 0.18 260 / 0.15);
+    color: oklch(0.48 0.18 260);
+  }
+
+  .source-badge-meesho {
+    background-color: oklch(0.88 0.1 320 / 0.15);
+    color: oklch(0.52 0.18 320);
+  }
+
+  .source-badge-myntra {
+    background-color: oklch(0.88 0.12 355 / 0.15);
+    color: oklch(0.52 0.22 355);
+  }
+
+  .source-badge-jiomart {
+    background-color: oklch(0.88 0.12 145 / 0.15);
+    color: oklch(0.48 0.18 145);
+  }
+
+  .source-badge-instamart {
+    background-color: oklch(0.9 0.1 45 / 0.15);
+    color: oklch(0.55 0.16 45);
+  }
+
+  .source-badge-prepkart {
+    background-color: oklch(0.88 0.1 200 / 0.15);
+    color: oklch(0.48 0.16 200);
+  }
+
+  .buy-now-btn {
+    background: linear-gradient(135deg, oklch(0.62 0.22 38), oklch(0.5 0.2 25));
+    color: oklch(0.98 0 0);
+    font-family: var(--font-display);
+    animation: btn-buy-pulse 2s ease-in-out infinite;
+  }
+
+  .buy-now-btn:hover {
+    background: linear-gradient(
+      135deg,
+      oklch(0.68 0.22 42),
+      oklch(0.56 0.22 28)
+    );
+    animation: none;
+    box-shadow: 0 0 18px oklch(0.62 0.22 38 / 0.55);
+  }
+
+  .badge-discount {
+    @apply bg-destructive text-destructive-foreground px-2 py-1 rounded-full text-xs font-bold;
+  }
+
+  .hero-text {
+    @apply font-display font-bold text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  .product-title {
+    @apply font-display font-bold text-lg line-clamp-2;
+  }
+
+  /* ── Comparison-Specific Tokens ── */
+  .deal-score-badge {
+    @apply inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-bold;
+    background-color: oklch(0.85 0.12 145 / 0.2);
+    color: oklch(0.65 0.15 145);
+  }
+
+  .best-deal-highlight {
+    position: relative;
+    border: 2px solid oklch(0.65 0.15 145);
+    box-shadow: 0 0 16px oklch(0.65 0.15 145 / 0.4), inset 0 0 8px
+      oklch(0.65 0.15 145 / 0.1);
+    animation: best-deal-glow 2s ease-in-out infinite;
+  }
+
+  .comparison-table {
+    @apply w-full border-collapse rounded-lg overflow-hidden;
+  }
+
+  .comparison-table thead {
+    @apply bg-muted/40 border-b border-border;
+  }
+
+  .comparison-table th {
+    @apply px-4 py-3 text-left text-sm font-semibold text-foreground;
+  }
+
+  .comparison-table td {
+    @apply px-4 py-3 text-sm text-foreground opacity-80;
+  }
+
+  .comparison-table tbody tr {
+    @apply border-b border-border transition-smooth hover:bg-muted/20;
+    border-color: oklch(var(--border) / 0.3);
+  }
+
+  .recommendation-carousel {
+    @apply flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .recommendation-card {
+    @apply flex-shrink-0 w-56 snap-center;
+  }
+
+  .price-comparison-row {
+    @apply flex items-center justify-between gap-2;
+  }
+
+  .price-original {
+    @apply text-foreground line-through text-sm font-mono opacity-40;
+  }
+
+  .price-current {
+    @apply text-accent font-display font-bold text-lg;
+  }
+
+  .savings-badge {
+    background-color: oklch(0.68 0.22 25 / 0.2);
+    color: oklch(0.68 0.22 25);
+    @apply px-2 py-1 rounded text-xs font-semibold;
+  }
+
+  /* ── Hot Deals Carousel Badge ── */
+  .hot-deal-badge {
+    position: relative;
+    background-color: oklch(0.72 0.16 38 / 0.95);
+    color: oklch(0.98 0 0);
+    @apply inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-bold;
+    animation: hot-deal-pulse 1.5s ease-in-out infinite;
+  }
+
+  /* ── Category Count Pill ── */
+  .category-count-pill {
+    background-color: oklch(0.25 0.02 265 / 0.6);
+    color: oklch(0.65 0.15 145);
+    @apply inline-flex items-center justify-center px-2 py-0.5 rounded-full text-xs font-semibold ml-1;
+  }
+
+  /* ── Compare Table Best Price Row ── */
+  .compare-table-best {
+    background-color: oklch(0.65 0.15 145 / 0.08);
+    border-left: 3px solid oklch(0.65 0.15 145);
+  }
+
+  .compare-table-best td {
+    @apply font-semibold;
+  }
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes hero-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 20px oklch(0.65 0.22 38 / 0.6), 0 4px 16px
+      oklch(0 0 0 / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 36px oklch(0.65 0.22 38 / 0.85), 0 6px 24px
+      oklch(0 0 0 / 0.4), 0 0 60px oklch(0.72 0.18 55 / 0.3);
+  }
+}
+
+@keyframes btn-buy-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0px oklch(0.62 0.22 38 / 0);
+  }
+  50% {
+    box-shadow: 0 0 14px oklch(0.62 0.22 38 / 0.45);
+  }
+}
+
+@keyframes best-deal-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 16px oklch(0.65 0.15 145 / 0.4), inset 0 0 8px
+      oklch(0.65 0.15 145 / 0.1);
+  }
+  50% {
+    box-shadow: 0 0 24px oklch(0.65 0.15 145 / 0.6), inset 0 0 12px
+      oklch(0.65 0.15 145 / 0.15);
+  }
+}
+
+@keyframes hot-deal-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0px oklch(0.72 0.16 38 / 0.5);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 12px oklch(0.72 0.16 38 / 0.7);
+    transform: scale(1.05);
+  }
+}

@@ -1,0 +1,59 @@
+// Version: 1.0.0
+type CategoryId__14729845 = Nat;
+type Category__8224233 =
+  {iconName : Text; id : CategoryId__14729845; name : Text; slug : Text};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type PlatformLink__737479165 =
+  {
+    affiliateLink : Text;
+    clickCount : Nat;
+    discountPercent : Nat;
+    originalPrice : Float;
+    platform : Text;
+    price : Float
+  };
+type ProductId__160010635 = Nat;
+type Product__750902660 =
+  {
+    affiliateLink : Text;
+    affiliateSource : Text;
+    categoryId : CategoryId__14729845;
+    clickCount : Nat;
+    createdAt : Timestamp__301639476;
+    description : Text;
+    discountPercent : Nat;
+    id : ProductId__160010635;
+    imageUrl : Text;
+    isTrending : Bool;
+    originalPrice : Float;
+    platformLinks : [PlatformLink__737479165];
+    price : Float;
+    tags : [Text];
+    title : Text;
+    updatedAt : Timestamp__301639476
+  };
+type Timestamp__301639476 = Int;
+actor {
+  stable adminPrincipal : {var value : Principal};
+  stable categories :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Category__8224233]];
+      var elementIndex : Nat__490723111
+    };
+  stable nextCategoryId : {var value : Nat};
+  stable nextProductId : {var value : Nat};
+  stable products :
+    {
+      var root : Node__46230540<ProductId__160010635, Product__750902660>;
+      var size : Nat__490723111
+    }
+};
