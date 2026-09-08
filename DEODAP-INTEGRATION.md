@@ -1,27 +1,34 @@
-# DeoDap integration
+# DeoDap dropshipping workflow
 
-BuyHubMart now has the order data model and a server-side supplier adapter.
+DeoDap has confirmed that its current dropshipping process is manual: there is no API or direct automatic order forwarding from BuyHubMart to DeoDap at this time.
 
-## Flow
+## Current production flow
 
-1. Customer places a COD order in BuyHubMart.
-2. The Motoko backend stores the order with supplier `DeoDap` and status `Awaiting DeoDap submission`.
-3. Admin opens the dropshipping order queue and submits the order to `/api/deodap-forward`.
-4. The Vercel function forwards the order to the approved DeoDap API without exposing the supplier credential to the browser.
-5. The response is used to store the DeoDap order ID and tracking number.
-6. Customer tracking reads the BuyHubMart order status.
+1. Customer places an order on BuyHubMart.
+2. BuyHubMart stores the order with supplier `DeoDap` and status `Awaiting DeoDap submission`.
+3. Admin opens the BuyHubMart order queue.
+4. Admin copies/submits the order details through the DeoDap Order Panel.
+5. DeoDap processes and white-label ships the product directly to the customer.
+6. Admin records the DeoDap supplier order ID and tracking/AWB in BuyHubMart when provided.
+7. Customer can use BuyHubMart order tracking to see the latest status entered by the admin.
 
-## Required Vercel environment variables
+## Commercial rules confirmed by DeoDap
 
-- `DEODAP_ORDER_API_URL` — the exact order-creation endpoint supplied by DeoDap.
-- `DEODAP_API_KEY` — the API credential supplied by DeoDap.
+- No inventory is required.
+- No MOQ is required.
+- White-label shipping is available.
+- COD is available with an additional ₹25 COD charge.
+- ₹4 packing charge applies per order.
+- Return/RTO products are sent to the registered address; customer returns require an unboxing video for verification.
+- Bulk orders can be submitted through an Excel sheet.
+- Product catalog can be imported through the supplied CSV/catalog.
 
-Do not put either value in frontend code, GitHub, CSV files, or the browser.
+## Automation status
 
-## Important
+Do **not** add DeoDap API credentials or pretend that an API connection is live. DeoDap has explicitly confirmed that API integration is currently unavailable.
 
-The adapter intentionally does **not** guess DeoDap's API URL, authentication scheme, SKU field, or request contract. Those values must match the API documentation/credentials provided by DeoDap. Until they are configured, the admin button returns a clear "not configured" response instead of pretending an order was submitted.
+The existing `api/deodap-forward.js` adapter is retained only as a future integration point. It must remain unconfigured until DeoDap provides an official API endpoint, authentication method, and request documentation.
 
-## CSV products
+## Product mapping
 
-The supplied DeoDap CSV is in Shopify-style columns. It can be imported into the BuyHubMart catalog, but product import and supplier-order submission are separate concerns: each product should retain its DeoDap SKU/identifier so an order can later be mapped to the supplier's exact SKU.
+When importing the DeoDap CSV, retain the DeoDap SKU/identifier on every product. This will make future API integration easier if DeoDap introduces an API.
