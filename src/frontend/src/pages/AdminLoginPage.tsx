@@ -1,4 +1,4 @@
-import { useAdminLogin } from "@/hooks/useBackend";
+import { useAdminLogin, useClaimAdmin } from "@/hooks/useBackend";
 import { useNavigate } from "@tanstack/react-router";
 import { Lock, Mail, ShieldCheck } from "lucide-react";
 import { motion } from "motion/react";
@@ -26,6 +26,7 @@ function AdminCard({ children }: { children: React.ReactNode }) {
 export default function AdminLoginPage() {
   const navigate = useNavigate();
   const adminLogin = useAdminLogin();
+  const claimAdmin = useClaimAdmin();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,14 +36,29 @@ export default function AdminLoginPage() {
     e.preventDefault();
     setError(false);
 
-    const ok = await adminLogin.mutateAsync({ email, password });
-    if (ok) {
+    try {
+      const ok = await adminLogin.mutateAsync({ email, password });
+      if (!ok) {
+        setError(true);
+        return;
+      }
+
+      // Bind the authenticated Internet Identity principal to the backend admin role.
+      // This makes the admin login session and admin-only order/product APIs agree.
+      const claimed = await claimAdmin.mutateAsync();
+      if (!claimed) {
+        setError(true);
+        return;
+      }
+
       sessionStorage.setItem(SESSION_VERIFIED_KEY, "1");
       navigate({ to: "/admin" });
-    } else {
+    } catch {
       setError(true);
     }
   };
+
+  const isPending = adminLogin.isPending || claimAdmin.isPending;
 
   return (
     <div
@@ -56,7 +72,6 @@ export default function AdminLoginPage() {
         className="w-full max-w-md"
       >
         <AdminCard>
-          {/* Brand */}
           <div className="flex flex-col items-center mb-7">
             <div
               className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
@@ -79,7 +94,6 @@ export default function AdminLoginPage() {
             </p>
           </div>
 
-          {/* Divider */}
           <div
             className="w-full h-px mb-7"
             style={{
@@ -88,9 +102,7 @@ export default function AdminLoginPage() {
             }}
           />
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Email */}
             <div>
               <label
                 htmlFor="admin-email"
@@ -122,12 +134,10 @@ export default function AdminLoginPage() {
                     border: `1px solid ${error ? "oklch(0.6 0.22 25 / 0.7)" : "oklch(0.38 0.06 38 / 0.6)"}`,
                     color: "oklch(0.9 0.04 38)",
                   }}
-                  data-ocid="admin-email-input"
                 />
               </div>
             </div>
 
-            {/* Password */}
             <div>
               <label
                 htmlFor="admin-password"
@@ -159,12 +169,10 @@ export default function AdminLoginPage() {
                     border: `1px solid ${error ? "oklch(0.6 0.22 25 / 0.7)" : "oklch(0.38 0.06 38 / 0.6)"}`,
                     color: "oklch(0.9 0.04 38)",
                   }}
-                  data-ocid="admin-password-input"
                 />
               </div>
             </div>
 
-            {/* Error message */}
             {error && (
               <motion.p
                 initial={{ opacity: 0, y: -6 }}
@@ -175,16 +183,14 @@ export default function AdminLoginPage() {
                   border: "1px solid oklch(0.55 0.22 25 / 0.4)",
                   color: "oklch(0.78 0.14 25)",
                 }}
-                data-ocid="admin-login-error"
               >
-                Incorrect email or password
+                Incorrect email/password or this identity is not the registered admin.
               </motion.p>
             )}
 
-            {/* Submit */}
             <button
               type="submit"
-              disabled={adminLogin.isPending || !email || !password}
+              disabled={isPending || !email || !password}
               className="w-full flex items-center justify-center gap-2 h-12 rounded-xl text-base font-bold mt-2 transition-all disabled:opacity-60"
               style={{
                 background:
@@ -192,12 +198,11 @@ export default function AdminLoginPage() {
                 boxShadow: "0 4px 16px oklch(0.55 0.22 38 / 0.35)",
                 color: "white",
               }}
-              data-ocid="admin-login-submit"
             >
-              {adminLogin.isPending ? (
+              {isPending ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Logging in...
+                  Signing in...
                 </>
               ) : (
                 <>
